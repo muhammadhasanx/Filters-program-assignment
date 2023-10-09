@@ -1,0 +1,189 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <cmath>
+#include "bmplib.cpp"
+
+using namespace std;
+unsigned char image[SIZE][SIZE];
+void loadImage ();
+void saveImage ();
+void flib_horizontally ();
+void flib_vertically ();
+void merge ();
+void rotate90 ();
+void rotate180 ();
+void rotate270 ();
+
+
+
+int main()
+{
+  loadImage ();
+  flib_vertically ();
+  saveImage();
+  return 0;
+}
+
+//_________________________________________
+
+void loadImage () {
+   char imageFileName[100];
+
+   // Get gray scale image file name
+   cout << "Enter the source image file name: ";
+   cin >> imageFileName;
+
+   // Add to it .bmp extension and load image
+   strcat (imageFileName, ".bmp");
+   readGSBMP(imageFileName, image);
+}
+
+//_________________________________________
+
+void saveImage () {
+   char imageFileName[100];
+
+   // Get gray scale image target file name
+   cout << "Enter the target image file name: ";
+   cin >> imageFileName;
+
+   // Add to it .bmp extension and load image
+   strcat (imageFileName, ".bmp");
+   writeGSBMP(imageFileName, image);
+}
+
+ //_________________________________________
+
+void flib_vertically() {
+  unsigned char image2[SIZE][SIZE];
+  for(int i =0; i < 3; i++) {
+  for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+        image2[i][j] = image[SIZE-i-1][j];
+    }}
+        for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+       image[i][j]=image2[i][j] ;  
+
+     }
+   }}}
+ 
+//_________________________________________
+
+void flib_horizontally() {
+    unsigned char image2[SIZE][SIZE];
+  for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+      image2[i][j] = image[i][SIZE-j-1];
+    }
+  };
+        for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+       image[i][j]=image2[i][j] ;  
+
+     }
+   }
+}
+
+//_______________________________________
+
+void merge()
+{
+  unsigned char image2[SIZE][SIZE];
+  unsigned char image3[SIZE][SIZE];
+   char imageFileName2[100];
+
+
+   cout << "Enter the second source image file name: ";
+   cin >> imageFileName2;
+
+
+   strcat (imageFileName2, ".bmp");
+   readGSBMP(imageFileName2, image2);
+
+
+for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+        image3[i][j]=((image[i][j] + image2[i][j])/2);
+    }
+
+}
+        for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+       image[i][j]=image3[i][j] ;  
+
+     }
+   }
+   
+}
+
+//_______________________________________
+
+void rotate90() {
+    unsigned char image2[SIZE][SIZE];
+  for (int i = 0; i < SIZE; i++) 
+  {
+        for (int j = 0; j< SIZE; j++) 
+        {
+          image2[j][SIZE-i-1] = image[i][j];
+        }
+  }
+
+
+    for (int i = 0; i < SIZE; i++) 
+  {
+        for (int j = 0; j< SIZE; j++) 
+        {
+          image[i][j]=image2[i][j];
+        }
+  }
+}
+
+//_______________________________________
+
+void rotate180() {
+    unsigned char image2[SIZE][SIZE];
+  for (int i = 0; i < SIZE; i++) 
+  {
+        for (int j = 0; j< SIZE; j++) 
+        {
+          image2[i][j] = image[SIZE-i-1][SIZE-j-1];
+        }
+  }
+
+
+    for (int i = 0; i < SIZE; i++) 
+  {
+        for (int j = 0; j< SIZE; j++) 
+        {
+          image[i][j]=image2[i][j];
+        }
+  }
+}
+
+//_______________________________________
+
+void rotate270() {
+    unsigned char image2[SIZE][SIZE];
+  for (int i = 0; i < SIZE; i++) 
+  {
+        for (int j = 0; j< SIZE; j++) 
+        {
+          image2[SIZE-j-1][i] = image[i][j];
+        }
+  }
+
+
+    for (int i = 0; i < SIZE; i++) 
+  {
+        for (int j = 0; j< SIZE; j++) 
+        {
+          image[i][j]=image2[i][j];
+        }
+  }
+}
+
+//_______________________________________
+
+
